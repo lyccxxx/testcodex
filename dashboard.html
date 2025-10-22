@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>业务数据看板</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --text: #1f2430;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.08);
+      --grid-gap: 1.5rem;
+      font-family: "Inter", "PingFang SC", "Microsoft Yahei", sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #e2e8f0;
+        --accent-soft: rgba(99, 102, 241, 0.2);
+      }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.75rem;
+    }
+
+    header span {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--grid-gap);
+    }
+
+    .grid.metrics {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .grid-main {
+      display: grid;
+      gap: var(--grid-gap);
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      margin-top: var(--grid-gap);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .metric-trend {
+      font-size: 0.9rem;
+      color: #16a34a;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .metric-trend.down {
+      color: #dc2626;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+
+    .trend-chart {
+      margin-top: 1rem;
+      height: 120px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      align-items: end;
+      gap: 0.5rem;
+    }
+
+    .trend-chart span {
+      display: block;
+      height: var(--value, 20%);
+      background: linear-gradient(180deg, rgba(79, 70, 229, 0.4), rgba(79, 70, 229, 0.95));
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th,
+    td {
+      padding: 0.75rem;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    thead {
+      background: var(--accent-soft);
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: rgba(148, 163, 184, 0.1);
+    }
+
+    .growth-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.4);
+      overflow: hidden;
+    }
+
+    .growth-bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(34, 197, 94, 0.5), rgba(34, 197, 94, 1));
+    }
+
+    .legend {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>2024 Q1 运营数据看板</h1>
+      <span>更新时间：2024-04-01 09:00</span>
+    </div>
+    <span class="pill">环比增长 +8.6%</span>
+  </header>
+
+  <section class="grid metrics">
+    <article class="card">
+      <h2>月活跃用户</h2>
+      <div class="metric-value">128,540</div>
+      <div class="metric-trend">▲ 较上月 +6.2%</div>
+    </article>
+    <article class="card">
+      <h2>付费转化率</h2>
+      <div class="metric-value">4.8%</div>
+      <div class="metric-trend">▲ 较上月 +0.9%</div>
+    </article>
+    <article class="card">
+      <h2>GMV (万元)</h2>
+      <div class="metric-value">2,430</div>
+      <div class="metric-trend down">▼ 较上月 -1.4%</div>
+    </article>
+    <article class="card">
+      <h2>客服满意度</h2>
+      <div class="metric-value">96.3%</div>
+      <div class="metric-trend">▲ 较上月 +2.1%</div>
+    </article>
+  </section>
+
+  <section class="grid-main">
+    <article class="card">
+      <h2>用户增长趋势</h2>
+      <div class="trend-chart">
+        <span style="--value: 35%"></span>
+        <span style="--value: 42%"></span>
+        <span style="--value: 48%"></span>
+        <span style="--value: 55%"></span>
+        <span style="--value: 61%"></span>
+        <span style="--value: 68%"></span>
+        <span style="--value: 64%"></span>
+        <span style="--value: 72%"></span>
+        <span style="--value: 78%"></span>
+        <span style="--value: 86%"></span>
+        <span style="--value: 92%"></span>
+        <span style="--value: 95%"></span>
+      </div>
+      <div class="legend">
+        <span>· 单位：千人</span>
+        <span>· 近 12 个月趋势</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>渠道拆解</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>渠道</th>
+            <th>本月新增</th>
+            <th>环比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>抖音广告</td>
+            <td>18,200</td>
+            <td><div class="metric-trend">▲ +12.5%</div></td>
+          </tr>
+          <tr>
+            <td>私域社群</td>
+            <td>9,460</td>
+            <td><div class="metric-trend">▲ +5.3%</div></td>
+          </tr>
+          <tr>
+            <td>App 推广联盟</td>
+            <td>7,280</td>
+            <td><div class="metric-trend down">▼ -2.1%</div></td>
+          </tr>
+          <tr>
+            <td>线下活动</td>
+            <td>3,980</td>
+            <td><div class="metric-trend">▲ +8.8%</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="card">
+      <h2>重点产品销售</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>产品</th>
+            <th>销量 (件)</th>
+            <th>同比增长</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>智能手表 S2</td>
+            <td>15,830</td>
+            <td>
+              <div class="growth-bar">
+                <span style="width: 68%"></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>无线耳机 AirX</td>
+            <td>12,640</td>
+            <td>
+              <div class="growth-bar">
+                <span style="width: 54%"></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>AI 智能音箱 Pro</td>
+            <td>10,120</td>
+            <td>
+              <div class="growth-bar">
+                <span style="width: 48%"></span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>家庭健身镜 Lite</td>
+            <td>8,760</td>
+            <td>
+              <div class="growth-bar">
+                <span style="width: 36%"></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </section>
+</body>
+</html>
