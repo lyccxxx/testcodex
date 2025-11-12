@@ -1,0 +1,142 @@
+{
+	"rule": {
+		"type": "(规则类型，用于上报至平台分类)",
+		"name": "(规则名称，用于上报至平台显示)",
+		"desc": "(规则描述, 用于描述上报平台时数据解读中定义部分)",
+		"alarm": true,
+		"level": "warning",
+		"expression": [
+			"/attr1*/attr2>1000",
+			"/attr1==/attr2",
+			"/attr1</attr2",
+			"/attr3</attr4",
+			"myScript1(attr1,attr2)"
+		],
+		"script": [
+			"",
+			"",
+			"",
+			"有需要就把完整的脚本路径弄出来，没需要就算了/myScript1",
+			"有需要就把完整的脚本路径弄出来，没需要就算了/getInvRiseDaily"
+		],
+		"period": [10,15,24,15],
+		"input_data": [{
+				"attr": "attr1",
+				"source": "iotdb",
+				"table": "root.ln.`1269014857442188595`",
+				"template": "01",
+				"position": "B02_YC0025",
+				"properties": "B02_YC0025",
+				"unit": "单位",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": ""
+			},
+			{
+				"attr": "attr2",
+				"source": "iotdb",
+				"table": "root.ln.`1269014857442188595`",
+				"template": "01",
+				"position": "B02_YC0024",
+				"properties": "B02_YC0024",
+				"unit": "单位",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": ""
+			},{
+				"attr": "attr3",
+				"source": "iotdb",
+				"table": "root.ln.`1269014857442188595`",
+				"template": "01",
+				"position": "B59_YC0047_dataphysics",
+				"properties": "B02_YC0024",
+				"unit": "单位",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": "10"
+			},{
+				"attr": "attr4",
+				"source": "iotdb",
+				"table": "root.ln.`1269014857442188595`",
+				"template": "01",
+				"position": "B10_YX0019_dataphysics",
+				"properties": "B02_YC0024",
+				"unit": "单位",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": "10"
+			}
+		],
+		"output_data": [{
+				"output": "/attr1*/attr2>1000",
+				"source": "iotdb",
+				"table": "root.ln.`1816341324371066880`",
+				"template": "02",
+				"position": "B06_YC0035_datasample",
+				"properties": "I046_1_YX0246",
+				"unit": "(单位)",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": "10",
+				"alarm": true,
+				"level": "warning"
+			},
+			{
+				"output": "/attr1==/attr2",
+				"source": "iotdb",
+				"table": "root.ln.`1816341324371066880`",
+				"template": "(数据模版名)",
+				"position": "B06_YC0036_datasample",
+				"properties": "I046_1_YX0246",
+				"unit": "(单位)",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": "10",
+				"alarm": true,
+				"level": "warning"
+			},
+			{
+				"output": "/attr1</attr2",
+				"source": "iotdb",
+				"table": "root.ln.`1816341324371066880`",
+				"template": "(数据模版名)",
+				"position": "B06_YC0037_datasample",
+				"properties": "I046_1_YX0246",
+				"unit": "(单位)",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": "",
+				"alarm": true,
+				"level": "warning"
+			},
+			{
+				"output": "myScript1(attr1,attr2)",
+				"source": "iotdb",
+				"table": "root.ln.`1816341324371066880`",
+				"template": "(数据模版名)",
+				"position": "B06_YC0038_datasample",
+				"properties": "I046_1_YX0246",
+				"unit": "(单位)",
+				"accuracy": "0.1",
+				"type": "float",
+				"value": "",
+				"alarm": true,
+				"level": "warning"
+			},
+			{
+				"output": "/attr3</attr4",
+				"source": "iotdb",
+				"table": "root.ln.`1816341324371066880`",
+				"template": "(数据模版名)",
+				"position": "B02_YC0024_datasample",
+				"properties": "I046_1_YX0246",
+				"unit": "(单位)",
+				"accuracy": "0.1",
+				"type": "Boolean",
+				"value": "",
+				"alarm": true,
+				"level": "warning"
+			}
+		]
+	}
+}
