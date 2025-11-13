@@ -84,17 +84,17 @@ object AlgorithmStream {
       .setParallelism(8)                                       // 并行度设为8
 
 //    // 构建复杂流（保持不变）：源数据作为复杂流
-//    val complexStream: DataStream[AlgorithResult] = sourceStream  // 显式指定类型
-//      .map { str =>                                               // 转换：按下划线分割，取第一段作为key
-//        val parts = str.split("_")
-//        val key = if (parts.length > 1) parts.head else str      //提取第一段作为 key
-//        (key, str)
-//      }.returns(createTypeInformation[(String, String)])         // 显式指定返回类型（解决类型推断问题）
-//      .keyBy(_._1)                                              // 按key分组（基于第一个元素）
-//      // 应用复杂逻辑处理函数：传入时间戳和站点配置（无侧输出流）
-//      .process(new AlgorithmTransformateComplex(timestamp, sitePartitionMap))
-//      .setParallelism(2)                                        // 并行度设为2
-////    complexStream.print()
+    val complexStream: DataStream[AlgorithResult] = sourceStream  // 显式指定类型
+      .map { str =>                                               // 转换：按下划线分割，取第一段作为key
+        val parts = str.split("_")
+        val key = if (parts.length > 1) parts.head else str      //提取第一段作为 key
+        (key, str)
+      }.returns(createTypeInformation[(String, String)])         // 显式指定返回类型（解决类型推断问题）
+      .keyBy(_._1)                                              // 按key分组（基于第一个元素）
+      // 应用复杂逻辑处理函数：传入时间戳和站点配置（无侧输出流）
+      .process(new AlgorithmTransformateComplex(timestamp, sitePartitionMap))
+      .setParallelism(2)                                        // 并行度设为2
+//    complexStream.print()
 
     // 侧输出流与主数据流处理
     // 关键调整3：getSideOutput返回的流会自动转换为Scala版（因OutputTag和ProcessFunction均为Scala类型）
@@ -114,9 +114,9 @@ object AlgorithmStream {
       .setParallelism(4)                   // 并行度4
 
 //    //合并流并输出（保持不变）：合并主数据流和复杂数据流，输出到Mqtt
-//    val mergedStream = keyedStream.union(complexStream)
-//    mergedStream.addSink(new IoTDBtoMqtt).setParallelism(1)     // 写入Mqtt的sink，并行度1
-//    complexStream.addSink(new IoTDBtoMqtt).setParallelism(1)
+    val mergedStream = keyedStream.union(complexStream)
+    mergedStream.addSink(new IoTDBtoMqtt).setParallelism(1)     // 写入Mqtt的sink，并行度1
+    complexStream.addSink(new IoTDBtoMqtt).setParallelism(1)
 
     // 启动Flink作业，名称为"Flink State Manager Test"
     env.execute("Flink State Manager Test")
